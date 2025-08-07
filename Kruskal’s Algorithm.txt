@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+
+vector<ll>parent(1e5);
+vector<ll>sz(1e5);
+vector<pair<ll,pair<ll,ll>>>adj;
+void make(int n)
+{
+    parent[n]=n;
+    sz[n]=1;
+}
+
+ll Find(int n)
+{
+    if(n==parent[n]) return n;
+    return parent[n]=Find(parent[n]);
+}
+
+void Union(int a,int b)
+{
+    a = Find(a);
+    b = Find(b);
+    ///boro tar sathe choto ta add korbo...
+    if(sz[a]<sz[b])
+    {
+        sz[b]+=sz[a];
+        parent[a]=b;
+    }
+    else
+    {
+        sz[a]+=sz[b];
+        parent[b]=a;
+    }
+}
+
+int main()
+{
+    ll n,e;
+    cin >> n >> e;
+    for(int i=0 ; i<e ; i++)
+    {
+        ll x,y,w;
+        cin >> x >> y >> w;
+        adj.push_back({w,{x,y}});
+    }
+    sort(adj.begin(),adj.end());
+
+    for(int i=1 ; i<=n ;i++) make(i);
+
+    ll total = 0;
+    for(int i=0 ; i<e ; i++)
+    {
+        ll x = adj[i].second.first;
+        ll y = adj[i].second.second;
+
+        if(Find(x)==Find(y)) continue;
+        Union(x,y);
+        total+=adj[i].first;
+    }
+    cout << total << endl;
+}
+
+
