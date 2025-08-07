@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+
+
+bool is_safe(vector<vector<ll>>chess_board,int row,int col,int n)
+{
+    for(int i=0 ; i<row ; i++)
+    {
+        if(chess_board[i][col]) return false;
+    }
+    for(int i=row-1,j=col+1 ; i>=0 and j<n ; i--,j++)
+    {
+        if(chess_board[i][j]) return false;
+    }
+    for(int i=row-1,j=col-1 ; i>=0 and j>=0 ; i--,j--)
+    {
+        if(chess_board[i][j]) return false;
+    }
+
+    return true;
+}
+
+vector<ll>ans;
+
+
+bool n_queen(vector<vector<ll>>&chess_board,int row,int n)
+{
+    if(row==n) return true;
+    for(int col=0 ; col<n ; col++)
+    {
+        if(is_safe(chess_board,row,col,n))
+        {
+            chess_board[row][col]=1;
+            ans.push_back(col+1);
+            if(n_queen(chess_board,row+1,n)) return true;
+            chess_board[row][col]=0;
+            ans.pop_back();
+        }
+    }
+    return false;
+}
+int main()
+{
+    ll n;
+    cin >> n;
+    vector<vector<ll>>chess_board(n,vector<ll>(n,0));
+    if(n_queen(chess_board,0,n))
+    {
+        for(auto i : ans) cout << i << ' ';
+    }
+    else cout << "not possible";
+}
+
+
+intput:
+4
+
+output:
+2 4 1 3

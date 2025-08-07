@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+int main()
+{
+    ll n; /// number of train
+    cin >> n;
+    vector<pair<ll,ll>>v; ///train time
+    for(int i=0 ; i<n ;i++)
+    {
+        ll x,y;
+        cin >> x >> y;
+
+        v.push_back({y,x});
+    }
+
+    ///step-1 (O(Nlog(N))
+    sort(v.begin(),v.end());
+
+    ///step-2 (O(N))
+    ll sas = -1;
+    ll ans = 0;
+    for(int i=0 ; i<n ;i++)
+    {
+        if(sas<=v[i].second)
+        {
+            sas = v[i].first;
+            ans++;
+        }
+    }
+
+    cout << ans << endl;
+}

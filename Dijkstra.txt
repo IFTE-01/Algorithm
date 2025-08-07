@@ -1,0 +1,76 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+ll inf = 1000000000;
+vector<vector<pair<ll,ll>>>adj(100000);
+vector<bool>vis(100000,false);
+vector<ll>dis(100000,inf);
+
+void Dijkstra(int n)
+{
+    priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>>pq;
+    pq.push({0,n});
+    dis[n]=0;
+    while(pq.empty()==false)
+    {
+        ll so = pq.top().second;
+        pq.pop();
+        if(vis[so]) continue;
+        vis[so]=true;
+        for(auto c : adj[so])
+        {
+            ll new_dis = dis[so]+c.first;
+            ll child = c.second;
+            if(new_dis<dis[child])
+            {
+                dis[child]=new_dis;
+                pq.push({new_dis,child});
+            }
+        }
+    }
+}
+
+
+int main()
+{
+    ll n,e;
+    cin >> n >> e;
+    for(int i=0 ; i<e ; i++)
+    {
+        ll x,y,w;
+        cin >> x >> y >> w;
+        adj[x].push_back({w,y});
+        adj[y].push_back({w,x});
+    }
+
+    ll from;
+    cin >> from;
+    Dijkstra(from);
+
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Distance from " << from << " to " << i << ": ";
+        if (dis[i] == inf) cout << "INF\n";
+        else cout << dis[i] << "\n";
+    }
+}
+
+
+input:
+5 6
+0 1 2
+0 2 4
+1 2 1
+1 3 7
+2 4 3
+3 4 1
+0
+
+output:
+Distance from 0 to 0: 0
+Distance from 0 to 1: 2
+Distance from 0 to 2: 3
+Distance from 0 to 3: 7
+Distance from 0 to 4: 6

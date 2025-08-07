@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+int main()
+{
+    ll n,target; 
+    cin >> n >> target;
+    vector<ll>c;
+    for(int i=0 ; i<n ; i++)
+    {
+        ll x;
+        cin >> x;
+        c.push_back(x);
+    }
+    
+    sort(c.begin(),c.end());
+    
+    ll mn_coin = 0;
+    for(int i=n-1 ; i>=0 ; i--)
+    {
+        mn_coin+=(target/c[i]);  /// koita coin...
+        target-=(target/c[i])*c[i]; ///koto kata jabe...
+    }
+    cout << mn_coin << endl;
+}
+
